@@ -10,7 +10,8 @@
                   <div class="card-header"><div class="card-title">Tambah Fakultas</div></div>
                   <!--end::Header-->
                   <!--begin::Form-->
-                  <form action="{{ route(fakultas.store') }}" method="POST">
+                  <form action="{{ route('fakultas.store') }}" method="POST">
+                    @csrf
                     <!--begin::Body-->
                     <div class="card-body">
                       <div class="mb-3">
