@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fakultas;
+use App\Models\Prodi;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
@@ -21,7 +23,9 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        //
+        $fakultas = Fakultas::all();
+        $prodi = Prodi::all();
+        return view('mahasiswa.create', compact('fakultas'), compact('prodi'));
     }
 
     /**
@@ -29,7 +33,26 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validasi input
+        $input = $request->validate([
+            'npm' => 'required|unique:nahasiswa',
+            'nama' => 'required',
+            'jk' => 'required',
+            'fakultas_id' => 'required',
+            'prodi_id' => 'required',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        //upload foto
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto'); // ambil file foto
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images'), $filename); // simpan foto ke folder public/images
+            $input['foto'] = $filename; // simpan nama file baru ke $input
+        }
+        // simpan data ke tabel mahasiswa
+        Mahasiswa::create($input);
+        // redirect ke route mahasiswa.index
+        return redirect()->route('mahasiswa.index')->with('success', 'mahasiswa berhasil ditambahkan.');
     }
 
     /**
