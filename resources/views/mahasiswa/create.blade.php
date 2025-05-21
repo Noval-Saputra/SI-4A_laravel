@@ -23,7 +23,7 @@
                       </div>
                       <div class="mb-3">
                         <label for="npm" class="form-label">NPM</label>
-                        <input type="text" class="form-control" name="singkatan" value="{{ old('npm') }}">
+                        <input type="text" class="form-control" name="npm" value="{{ old('npm') }}">
                         @error('npm')
                           <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -37,13 +37,23 @@
                         @enderror
                       </div>
                       <div class="mb-3">
-                        <label for="fakultas_id" class="form-label">Fakultas</label>
-                        <select class="form-control" name="fakultas_id">
-                          @foreach($fakultas as $item)
-                          <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                          @endforeach
-                        </select>
-                        @error('fakultas_id')
+                        <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                        <input type="date" class="form-control" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
+                        @error('tanggal_lahir')
+                          <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                      </div>
+                      <div class="mb-3">
+                        <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
+                        <input type="text" class="form-control" name="tempat_lahir" value="{{ old('tempat_lahir') }}">
+                        @error('tempat_lahir')
+                          <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                      </div>
+                      <div class="mb-3">
+                        <label for="asal_sma" class="form-label">Asal SMA/SMK</label>
+                        <input type="text" class="form-control" name="asal_sma" value="{{ old('asal_sma') }}">
+                        @error('asal_sma')
                           <div class="text-danger">{{ $message }}</div>
                         @enderror
                       </div>

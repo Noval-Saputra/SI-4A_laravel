@@ -35,10 +35,12 @@ class MahasiswaController extends Controller
     {
         // validasi input
         $input = $request->validate([
-            'npm' => 'required|unique:nahasiswa',
+            'npm' => 'required|unique:mahasiswa',
             'nama' => 'required',
             'jk' => 'required',
-            'fakultas_id' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'tempat_lahir' => 'required',
+            'asal_sma' => 'required',
             'prodi_id' => 'required',
             'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -60,7 +62,8 @@ class MahasiswaController extends Controller
      */
     public function show(Mahasiswa $mahasiswa)
     {
-        //
+        // dd($mahasiswa);
+        return view('mahasiswa.show', compact('mahasiswa'));
     }
 
     /**
