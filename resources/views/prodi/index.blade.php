@@ -30,7 +30,10 @@
             </div>
             </div>
             <div class="card-body">
-                <a href="{{ route('prodi.create') }}" class="btn btn-primary"> Tambah </a>
+                
+            
+
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -49,6 +52,14 @@
                             <td>{{ $item->kaprodi}}</td>
                             <td>{{ $item->sekretaris}}</td>
                             <td>{{ $item->fakultas->nama}}</td>
+                            <td>
+                                <a href="{{ route('mahasiswa.show', $item->id) }}" class="btn btn-info" >Show</a>
+                                <a href="{{ route('mahasiswa.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                                <form action="{{ route('mahasiswa.destroy', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                 <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                         </tr>
                     @endforeach
                     </tbody>

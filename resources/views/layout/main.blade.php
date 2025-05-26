@@ -843,6 +843,14 @@
             });
     });
 </script>
+
+<script type="text/javascript">
+        Swal({
+        title: "Good job!",
+        text: "{{ session('success') }}",
+        icon: "success",
+      })
+</script>
     <!--end::Script-->
   </body>
   <!--end::Body-->
