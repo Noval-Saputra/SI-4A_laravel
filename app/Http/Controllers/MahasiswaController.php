@@ -3,10 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fakultas;
-<<<<<<< HEAD
-=======
-use App\Models\Prodi;
->>>>>>> d82666f67b4528507ba5155beefd213e841c3562
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
@@ -27,15 +23,9 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-<<<<<<< HEAD
         $mahasiswa = Fakultas::all();
         $prodi = Prodi::all();
         return view('mahasiswa.create', compact('mahasiswa', 'prodi'));
-=======
-        $fakultas = Fakultas::all();
-        $prodi = Prodi::all();
-        return view('mahasiswa.create', compact('fakultas'), compact('prodi'));
->>>>>>> d82666f67b4528507ba5155beefd213e841c3562
     }
 
     /**
@@ -43,7 +33,6 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-<<<<<<< HEAD
         $input = $request->validate([
             'npm' =>"required(unique:Mahasiswa",
             "nama"=>'required',
@@ -52,30 +41,6 @@ class MahasiswaController extends Controller
             "prodi_id" => "required",
             "foto" => "required|mimes:jpg,jpeg,png,gif|max:2048",
         ]);
-=======
-        // validasi input
-        $input = $request->validate([
-            'npm' => 'required|unique:mahasiswa',
-            'nama' => 'required',
-            'jk' => 'required',
-            'tanggal_lahir' => 'required|date',
-            'tempat_lahir' => 'required',
-            'asal_sma' => 'required',
-            'prodi_id' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-        //upload foto
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto'); // ambil file foto
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images'), $filename); // simpan foto ke folder public/images
-            $input['foto'] = $filename; // simpan nama file baru ke $input
-        }
-        // simpan data ke tabel mahasiswa
-        Mahasiswa::create($input);
-        // redirect ke route mahasiswa.index
-        return redirect()->route('mahasiswa.index')->with('success', 'mahasiswa berhasil ditambahkan.');
->>>>>>> d82666f67b4528507ba5155beefd213e841c3562
     }
 
     /**

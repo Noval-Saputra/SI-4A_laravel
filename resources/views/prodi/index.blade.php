@@ -49,6 +49,14 @@
                             <td>{{ $item->kaprodi}}</td>
                             <td>{{ $item->sekretaris}}</td>
                             <td>{{ $item->fakultas->nama}}</td>
+                            <td>
+                                 <a href="{{ route('fakultas.show', $item->id) }}" class="btn btn-info" >Show</a>
+                                <a href="{{ route('fakultas.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                                <form action="{{ route('fakultas.destroy', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

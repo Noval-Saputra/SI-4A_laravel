@@ -7,11 +7,12 @@
 
                 <div class="card card-primary card-outline mb-4">
                   <!--begin::Header-->
-                  <div class="card-header"><div class="card-title">Tambah Prodi</div></div>
+                  <div class="card-header"><div class="card-title">Ubah Prodi</div></div>
                   <!--end::Header-->
                   <!--begin::Form-->
                   <form action="{{ route('prodi.store') }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <!--begin::Body-->
                     <div class="card-body">
                       <div class="mb-3">
@@ -46,7 +47,8 @@
                         <label for="fakultas_id" class="form-label">fakultas </label>
                         <select clalss = "form-control" class="form-control" name="fakultas_id">
                             @foreach($fakultas as $item)
-                            <option value ="{{ $item->id }}"> {{ $item->nama }} </option>
+                            <option value ="{{ $item->id }}" {{ old('fakultas_id') == $item->id ? 'selected : ($prodi->fakultas_id == $item->id ? 'selected :null') }}>
+                                {{ $item->nama}} </option>
                             @endforeach
                         </select>
                         @error('Sekretaris')
