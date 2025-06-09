@@ -30,10 +30,7 @@
             </div>
             </div>
             <div class="card-body">
-                
-            
-
-
+                <a href="{{ route('prodi.create') }}" class="btn btn-primary"> Tambah </a>
                 <table class="table">
                     <thead>
                         <tr>
@@ -42,6 +39,7 @@
                             <th>Kaprodi</th>
                             <th>Sekretaris</th>
                             <th>Fakultas</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,23 +51,14 @@
                             <td>{{ $item->sekretaris}}</td>
                             <td>{{ $item->fakultas->nama}}</td>
                             <td>
-<<<<<<< HEAD
-                                 <a href="{{ route('fakultas.show', $item->id) }}" class="btn btn-info" >Show</a>
-                                <a href="{{ route('fakultas.edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('fakultas.destroy', $item->id) }}" method="POST" class="d-inline">
+                                <a href="{{ route('prodi.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                                <form action="{{ route('prodi.destroy', $item->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Delete'
+                                    data-nama='{{ $item->nama }}'>Delete</button>
+                                    </form>
                             </td>
-=======
-                                <a href="{{ route('mahasiswa.show', $item->id) }}" class="btn btn-info" >Show</a>
-                                <a href="{{ route('mahasiswa.edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('mahasiswa.destroy', $item->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                 <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
->>>>>>> bbd3e21c101ca777725612dd6bf6dfe08c7a5358
                         </tr>
                     @endforeach
                     </tbody>
