@@ -30,7 +30,10 @@
             </div>
             </div>
             <div class="card-body">
-                <a href="{{ route('prodi.create') }}" class="btn btn-primary"> Tambah </a>
+                
+            
+
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -50,6 +53,7 @@
                             <td>{{ $item->sekretaris}}</td>
                             <td>{{ $item->fakultas->nama}}</td>
                             <td>
+<<<<<<< HEAD
                                  <a href="{{ route('fakultas.show', $item->id) }}" class="btn btn-info" >Show</a>
                                 <a href="{{ route('fakultas.edit', $item->id) }}" class="btn btn-warning">Edit</a>
                                 <form action="{{ route('fakultas.destroy', $item->id) }}" method="POST" class="d-inline">
@@ -57,6 +61,15 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>
                             </td>
+=======
+                                <a href="{{ route('mahasiswa.show', $item->id) }}" class="btn btn-info" >Show</a>
+                                <a href="{{ route('mahasiswa.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                                <form action="{{ route('mahasiswa.destroy', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                 <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+>>>>>>> bbd3e21c101ca777725612dd6bf6dfe08c7a5358
                         </tr>
                     @endforeach
                     </tbody>
