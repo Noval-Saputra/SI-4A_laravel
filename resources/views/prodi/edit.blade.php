@@ -29,6 +29,35 @@
                           <div class="text-danger">{{ $message }}</div>
                         @enderror
                       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      
                       <div class="mb-3">
                         <label for="kaprodi" class="form-label">Nama Kaprodi</label>
                         <input type="text" class="form-control" name="kaprodi" value="{{ old('kaprodi') }}">
