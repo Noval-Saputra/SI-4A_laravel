@@ -13,6 +13,6 @@ class FakultasController extends Controller
     {
         // Tambahkan kode di sini untuk menampilkan data fakultas
         // Contoh:
-        $mahasiswa = DB::select('SELECT prodi.nama, COUNT(*)')
+        $mahasiswa = DB::select('SELECT prodi.nama, COUNT(*)');
     }
 }
