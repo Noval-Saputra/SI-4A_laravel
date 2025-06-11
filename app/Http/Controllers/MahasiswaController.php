@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fakultas;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class MahasiswaController extends Controller
 {
@@ -23,9 +23,8 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        $mahasiswa = Fakultas::all();
         $prodi = Prodi::all();
-        return view('mahasiswa.create', compact('mahasiswa', 'prodi'));
+        return view('mahasiswa.create', compact('prodi'));
     }
 
     /**
@@ -33,14 +32,54 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
+        // validasi input
         $input = $request->validate([
-            'npm' =>"required(unique:Mahasiswa",
-            "nama"=>'required',
-            "jk" =>"required",
-            "Tanggal_lahir" => "required",
-            "prodi_id" => "required",
-            "foto" => "required|mimes:jpg,jpeg,png,gif|max:2048",
+            'npm' => 'required|unique:mahasiswa',
+            'nama' => 'required',
+            'jk' => 'required',
+            'tanggal_lahir' => 'required',
+            'tempat_lahir' => 'required',
+            'asal_sma' => 'required',
+            'prodi_id' => 'required',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        // upload foto
+        if ($request->hasFile('foto')) {
+            // $file = $request->file('foto'); // ambil file foto
+            // $filename = time() . '.' . $file->getClientOriginalExtension();
+            // $file->move(public_path('images'), $filename); // simpan foto ke folder public/images
+            // $input['foto'] = $filename; // simpan nama file baru ke $input
+             try {
+                $file = $request->file('foto');
+                $response = Http::asMultipart()->post(
+                    'https://api.cloudinary.com/v1_1/' . env('CLOUDINARY_CLOUD_NAME') . '/image/upload',
+                    [
+                        [
+                            'name'     => 'file',
+                            'contents' => fopen($file->getRealPath(), 'r'),
+                            'filename' => $file->getClientOriginalName(),
+                        ],
+                        [
+                            'name'     => 'upload_preset',
+                            'contents' => env('CLOUDINARY_UPLOAD_PRESET'),
+                        ],
+                    ]
+                );
+
+                $result = $response->json();
+                if (isset($result['secure_url'])) {
+                    $input['foto'] = $result['secure_url'];
+                } else {
+                    return back()->withErrors(['foto' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
+                }
+            } catch (\Exception $e) {
+                return back()->withErrors(['foto' => 'Cloudinary error: ' . $e->getMessage()]);
+            }
+        }
+        // simpan data ke tabel mahasiswa
+        Mahasiswa::create($input);
+        // redirect ke route mahasiswa.index
+        return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa berhasil ditambahkan.');
     }
 
     /**
@@ -48,7 +87,7 @@ class MahasiswaController extends Controller
      */
     public function show(Mahasiswa $mahasiswa)
     {
-        // dd($mahasiswa);
+        // dd($mahasiswa)
         return view('mahasiswa.show', compact('mahasiswa'));
     }
 
@@ -73,18 +112,21 @@ class MahasiswaController extends Controller
      */
     public function destroy($mahasiswa)
     {
-         $mahasiswa = 
-        Mahasiswa::findOrFail
-        ($mahasiswa);
-        if($mahasiswa->foto) {
-            $fotopath = public_path('images/'.$mahasiswa->foto);
-            if(file_exists($fotopath)){
-                unlink($fotopath);
+        $mahasiswa = Mahasiswa::findOrFail($mahasiswa);
+        // dd($mahasiswa);
+
+        // hapus foto jika ada
+        if ($mahasiswa->foto) {
+            $fotoPath = public_path('images/' . $mahasiswa->foto);
+            if (file_exists($fotoPath)) {
+                unlink($fotoPath); // hapus file foto
             }
         }
 
+        // hapus data mahasiswa
         $mahasiswa->delete();
 
-    return redirect()->route('mahasiswa.index')->with('success','mahasiswa berhasil dihapus.');
+        // redirect ke route mahasiswa.index
+        return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa berhasil dihapus.');
     }
 }
